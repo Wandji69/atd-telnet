@@ -1,0 +1,37 @@
+name: Prototype task
+description: One task from task.md for the attendance prototype.
+title: "[T#] "
+labels: ["prototype"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Copy the suggested title and the Issue body from `task.md`.
+        Leave backlog tasks T17–T24 unopened.
+        The lead opens these issues. An intern takes one whose dependencies are already merged.
+
+  - type: input
+    id: task-id
+    attributes:
+      label: Task id
+      placeholder: T5
+    validations:
+      required: true
+
+  - type: dropdown
+    id: track
+    attributes:
+      label: Track
+      options:
+        - essential
+        - supporting
+    validations:
+      required: true
+
+  - type: textarea
+    id: body
+    attributes:
+      label: Issue body
+      description: Paste the Issue body section from task.md.
+    validations:
+      required: true
