@@ -20,6 +20,8 @@ npm install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
+# set MANAGER_PASSWORD in .env first, see "Manager sign-in" below
+php artisan db:seed
 composer run dev
 ```
 
@@ -28,6 +30,18 @@ The app is at `http://localhost:8000`.
 `docker compose` starts Postgres 16 on port 5432 and Redis 7 on port 6379. The database name, user, and password in `.env.example` match that Compose file. They are local placeholders. Replace `SYNC_DEV_TOKEN` before you share a machine.
 
 `composer run dev` starts the PHP server, the queue listener, and Vite together.
+
+## Manager sign-in
+
+Managers sign in at `/login` with Laravel Fortify. Public registration is off, so the only way to get an account is the local seeder.
+
+1. In your own `.env`, replace the `MANAGER_PASSWORD=change-me` placeholder with a password only you know. `MANAGER_EMAIL` and `MANAGER_NAME` can stay as they are. Keep the password in double quotes, for example `MANAGER_PASSWORD="my-password"`. Without quotes, a `#` or a space cuts the password short.
+2. Run `php artisan db:seed` (or `php artisan db:seed --class=ManagerSeeder`).
+3. Sign in at `http://localhost:8000/login` with `MANAGER_EMAIL` and your password.
+
+The seeder creates one synthetic manager in `users`. Running it again updates that same account. It refuses to run in production, and it refuses the `change-me` placeholder. Passwords are stored with Laravel's hasher and are never sent to the browser. Do not commit `.env`.
+
+Routes that need a signed-in manager use the `auth` middleware. A signed-out request to one of them redirects to `/login`.
 
 ## Checks
 
