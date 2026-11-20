@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\Concerns\HasClientUuids;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 abstract class Model extends EloquentModel
 {
-    use HasUuids;
+    use HasClientUuids;
 }
