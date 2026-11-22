@@ -24,6 +24,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // A failed form redirects back with the submitted input flashed to the
+        // session, and the session is stored in the database. Never flash an
+        // intern's PIN, so it is not written to the database in plain text.
+        $exceptions->dontFlash('pin');
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
