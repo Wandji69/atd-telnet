@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'sync' => [
+        // Shared bearer token for terminal sync until T16 adds per-device tokens.
+        'dev_token' => env('SYNC_DEV_TOKEN'),
+    ],
+
 ];
